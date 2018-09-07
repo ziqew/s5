@@ -4,6 +4,7 @@ import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+import sample.reactive.s5.rx.domain.Sir;
 
 import java.util.Arrays;
 import java.util.List;
@@ -119,4 +120,19 @@ public class ReactorSnippets {
     public <T> Flux<T> appendBoomError(Flux<T> source) {
         return source.concatWith(Mono.error(new IllegalArgumentException("boom")));
     }
+
+
+    @Test
+    public void findById(String s) {
+
+        Mono<Sir> sirMono= Mono.just(s)
+                .then(() -> {
+                    return Mono.empty();
+                    if ("notfound".equalsIgnoreCase(s))
+                        return Mono.empty();
+                    else
+                        return Mono.just(new Sir(s, "GUY"));
+                });
+    }
+
 }
